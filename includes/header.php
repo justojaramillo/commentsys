@@ -12,7 +12,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Carousel Template · Bootstrap v5.2</title>
+    <title>Blog</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/carousel/">
 
@@ -28,7 +28,7 @@ session_start();
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container">
-    <a class="navbar-brand" href="">auth sys</a>
+    <a class="navbar-brand" href="index.php">CommentSys</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,26 +37,28 @@ session_start();
    
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="http://auth_2024.test">Home</a>
+          <a class="nav-link active" aria-current="page" href="http://commentsys.test">Home</a>
         </li>
         <?php 
-        if (!isset($_SESSION["username"])): 
-        ?>
-        <li class="nav-item">
-          <a class="nav-link" href="http://auth_2024.test/login.php">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="http://auth_2024.test/register.php">Register</a>
-        </li>
+        if (!isset($_SESSION["username"])): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="http://commentsys.test/login.php">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://commentsys.test/register.php">Register</a>
+          </li>
         <?php else : ?>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <?= $_SESSION["username"] ?>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-          </ul>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://commentsys.test/create.php">Create</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <?= $_SESSION["username"] ?>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+            </ul>
+          </li>
         <?php endif; ?>
        
       </ul>
