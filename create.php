@@ -5,21 +5,19 @@ require_once "includes/header.php";
 if (!isset($_SESSION["username"])) {
   header("location: index.php");
 }
-$username = $_SESSION["username"];
-echo "<br>$username<br>";
+
 
 if (isset($_POST["submit"])) {
-    if ($_POST["title"]== '' || $_POST["username"]=='' || $_POST["body"]=='') {
+    if ($_POST["title"]== '' || $_POST["body"]=='') {
       echo "Some inputs are empty";
     }else {
       $title = $_POST["title"];
       $body = $_POST["body"];
       $username = $_SESSION["username"];
-
-      echo "<br>$username<br>";
   
       $insert = $conn->prepare("INSERT INTO posts(title, body, username) VALUES (:title, :body, :username)");
       $insert->execute([":title"=>$title, ":body"=>$body, ":username"=>$username]);
+      header("location: index.php");
     }
 }
 
@@ -34,9 +32,9 @@ if (isset($_POST["submit"])) {
       <label for="floatingInput">title</label>
     </div>
 
-    <div class="form-floating">
+<!--     <div class="form-floating">
       <input name="username" type="hidden" class="form-control" id="floatingInput" placeholder="username">
-    </div>
+    </div> -->
 
     <div class="form-floating mt-3">
       <textarea rows="9" name="body" placeholder="body" class="form-control"></textarea>

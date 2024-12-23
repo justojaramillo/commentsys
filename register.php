@@ -1,6 +1,6 @@
 <?php 
-require_once "config.php"; 
 require_once "includes/header.php"; 
+require_once "config.php"; 
 
 if (isset($_SESSION["username"])) {
   header("location: index.php");

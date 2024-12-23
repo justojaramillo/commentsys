@@ -1,12 +1,23 @@
 <?php 
-
 require_once "includes/header.php";
+require_once "config.php"; 
 
-$wellcome = $_SESSION["username"]??"from index";
+$select = $conn->query("SELECT * FROM posts");
+$select->execute();
+$rows = $select->fetchAll(PDO::FETCH_OBJ);
 
-echo "hello $wellcome<br>";
-/* echo $_SERVER["SERVER_NAME"];
-echo "<br>".$_SERVER['REQUEST_URI']; */
-
-require_once "includes/footer.php"; 
 ?>
+
+<main class="form-signin w-50 m-auto mt-5">
+    <?php foreach($rows as $row): ?>
+    <div class="card mt-3">
+
+        <div class="card-body">
+            <h5 class="card-title"><?= $row->title ?> </h5>
+            <p class="card-text"><?= $row->body ?></p>
+            <a href="show.php?id=<?= $row->post_id ?>" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</main>
+<?php require_once "includes/footer.php"; ?>
