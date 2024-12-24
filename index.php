@@ -14,8 +14,8 @@ $rows = $select->fetchAll(PDO::FETCH_OBJ);
 
         <div class="card-body">
             <h5 class="card-title"><?= $row->title ?> </h5>
-            <p class="card-text"><?= $row->body ?></p>
-            <a href="show.php?id=<?= $row->post_id ?>" class="btn btn-primary">Go somewhere</a>
+            <p class="card-text"><?= substr($row->body,0,100).'...' ?></p>
+            <a href="show.php?id=<?= $row->post_id ?>" class="btn btn-primary">More</a>
         </div>
     </div>
     <?php endforeach; ?>
