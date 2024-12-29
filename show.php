@@ -27,6 +27,7 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
     </div>
 
     <div class="row ">
+        <?php if(isset($_SESSION["username"])) : ?>
         <form method="POST" id="comment_data">
     
             <div class="form-floating mt-3">
@@ -34,7 +35,7 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
             </div>
         
             <div class="form-floating mt-3">
-            <input value="<?= $_SESSION["username"] ?>" name="username" type="hidden" class="form-control" id="username">
+            <input value="<?= $_SESSION["username"]??'gest' ?>" name="username" type="hidden" class="form-control" id="username">
             </div>    
 
             <div class="form-floating mt-3">
@@ -43,9 +44,10 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
             </div>
         
             <button name="submit" id="submit" class="w-100 btn btn-lg btn-primary mt-5" type="submit">Create comment</button>
-        <div id="msg" class="nothing"></div>
-    
-      </form>
+            <div id="msg" class="nothing"></div>
+            <div id="delete-msg" class="nothing"></div>
+        </form>
+        <?php endif; ?>
     </div>
     <div class="row">
         <?php foreach ($comment as $comm) : ?>
@@ -53,7 +55,9 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
             <div class="card-body">
                 <h5 class="card-text"><?= $comm->username ?></h5>
                 <p class="card-title"><?= $comm->comment ?> </p>
-                <button name="delete_comment" id="delete_comment" value="<?= $comm->comments_id ?>"  class="btn btn-danger mt-3" >Delete comment</button>
+                <?php if ( isset($_SESSION["username"]) && $_SESSION["username"] == $comm->username) :?>
+                    <button name="delete_comment" id="delete_comment"  value="<?= $comm->comments_id ?>"  class="btn btn-danger mt-3 delete_comment" >Delete comment</button>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>
@@ -67,9 +71,7 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
 <script>
     $(document).ready(function() {
         
-        
-
-/*         $(document).on('submit',function(e){
+        $(document).on('submit',function(e){
             e.preventDefault();
             var form_data = $('#comment_data').serialize()+'&submit=submit';
             
@@ -85,16 +87,12 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
                     fetch_me();
                 }
             });
-        }); */
+        });
 
 
-        $("#delete_comment").on('click',function(e){
+        $(".delete_comment").on('click',function(e){
             e.preventDefault();
-            console.log("clicked");
-            
-            var id = $("#delete_comment").val();
-            console.log(id);
-            
+            var id = $(this).val();           
             
             $.ajax({
                 type: 'post',
@@ -104,9 +102,8 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
                     id: id
                 },
                 success: function (){
-                    alert("delete id: "+id);
-                    //$("#msg").html("Added successfully.").toggleClass("alert alert-success bg-success text-white mt-3");
-                    //fetch_me();
+                    $("#delete-msg").html("Deleted successfully.").toggleClass("alert alert-success bg-success text-white mt-3");
+                    fetch_me();
                 }
             });
         });
@@ -115,7 +112,7 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
 
             setInterval(() => {
                 $("body").load("show.php?id=<?=  $_GET["id"] ?>")
-            }, 4000);
+            }, 5000);
         }
     });
 </script>
