@@ -51,12 +51,13 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
         <?php foreach ($comment as $comm) : ?>
         <div class="card mt-5">
             <div class="card-body">
-                <p class="card-text"><?= $comm->username ?></p>
-                <h5 class="card-title"><?= $comm->comment ?> </h5>
+                <h5 class="card-text"><?= $comm->username ?></h5>
+                <p class="card-title"><?= $comm->comment ?> </p>
+                <button name="delete_comment" id="delete_comment" value="<?= $comm->comments_id ?>"  class="btn btn-danger mt-3" >Delete comment</button>
             </div>
         </div>
         <?php endforeach; ?>
-        <!-- AQUI QUEDE MINUTO 6:52 -->
+        
     </div>
 </main>
 
@@ -64,14 +65,12 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
 <?php require_once "includes/footer.php"; ?>
 
 <script>
-    $( document ).ready(function() {
+    $(document).ready(function() {
         
         
 
-        $(document).on('submit',function(e){
-            console.log("submitted");
+/*         $(document).on('submit',function(e){
             e.preventDefault();
-            
             var form_data = $('#comment_data').serialize()+'&submit=submit';
             
             $.ajax({
@@ -83,8 +82,40 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
                     $('#username').val('');
                     $('#post_id').val('');
                     $("#msg").html("Added successfully.").toggleClass("alert alert-success bg-success text-white mt-3");
+                    fetch_me();
+                }
+            });
+        }); */
+
+
+        $("#delete_comment").on('click',function(e){
+            e.preventDefault();
+            console.log("clicked");
+            
+            var id = $("#delete_comment").val();
+            console.log(id);
+            
+            
+            $.ajax({
+                type: 'post',
+                url: 'http://commentsys.test/delete_comment.php',
+                data: {
+                    delete: 'delete',
+                    id: id
+                },
+                success: function (){
+                    alert("delete id: "+id);
+                    //$("#msg").html("Added successfully.").toggleClass("alert alert-success bg-success text-white mt-3");
+                    //fetch_me();
                 }
             });
         });
+
+        function fetch_me(){
+
+            setInterval(() => {
+                $("body").load("show.php?id=<?=  $_GET["id"] ?>")
+            }, 4000);
+        }
     });
 </script>
