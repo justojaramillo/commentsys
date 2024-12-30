@@ -13,7 +13,7 @@ session_start();
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
     <title>Blog</title>
-
+    <link rel="icon" type="image/x-icon" href="php_logo.svg">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/carousel/">
 
     

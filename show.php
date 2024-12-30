@@ -14,6 +14,11 @@ $comments = $conn->query("SELECT * FROM comments WHERE post_id='$id'");
 $comments->execute();
 $comment = $comments->fetchAll(PDO::FETCH_OBJ);
 
+$rating = $conn->query("SELECT * FROM rates WHERE post_id='$id'");
+$rating->execute();
+$rate = $rating->fetch(PDO::FETCH_OBJ);
+
+
 ?>
 <main class="form-signin w-90 m-auto mt-5">
     <div class="row">
@@ -22,6 +27,11 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
                 <p class="card-text"><?= $post->create_at ?></p>
                 <h5 class="card-title"><?= $post->title ?> </h5>
                 <p class="card-text"><?= substr($post->body,0,100).'...' ?></p>
+                <form method="post" id="form-rating">
+                    <div class="my-rating"></div>
+                    <input type="hidden" id="rating" name="rating" value="">
+                    <input type="hidden" id="post_id" name="post_id" value="<?= $post->post_id ?>">
+                </form>
             </div>
         </div>
     </div>
@@ -56,7 +66,7 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
                 <h5 class="card-text"><?= $comm->username ?></h5>
                 <p class="card-title"><?= $comm->comment ?> </p>
                 <?php if ( isset($_SESSION["username"]) && $_SESSION["username"] == $comm->username) :?>
-                    <button name="delete_comment" id="delete_comment"  value="<?= $comm->comments_id ?>"  class="btn btn-danger mt-3 delete_comment" >Delete comment</button>
+                    <button name="delete_comment"  value="<?= $comm->comments_id ?>"  class="btn btn-danger mt-3" >Delete comment</button>
                 <?php endif; ?>
             </div>
         </div>
@@ -90,7 +100,7 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
         });
 
 
-        $(".delete_comment").on('click',function(e){
+        $("[name='delete_comment']").on('click',function(e){
             e.preventDefault();
             var id = $(this).val();           
             
@@ -112,7 +122,26 @@ $comment = $comments->fetchAll(PDO::FETCH_OBJ);
 
             setInterval(() => {
                 $("body").load("show.php?id=<?=  $_GET["id"] ?>")
-            }, 5000);
+            }, 4000);
         }
+
+        $(".my-rating").starRating({
+            initialRating: "<?= $rate->ratings??0 ?>",
+            strokeColor: '#894A00',
+            strokeWidth: 10,
+            starSize: 25,
+            callback: function(currentRating, $el){
+                $("#rating").val(currentRating);
+                $(".my-rating").click((e)=>{
+                    e.preventDefault();
+                    form_rating = $("#form-rating").serialize()+'&insert=insert';
+                    $.ajax({
+                        type: "POST",
+                        url: 'insert_rating.php',
+                        data: form_rating,
+                    });
+                });
+            }
+        });
     });
 </script>
