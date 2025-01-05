@@ -5,6 +5,7 @@ require_once "config.php";
 
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
+    $user_id = $_SESSION['user_id'];
     $one_post = $conn->query("SELECT * FROM posts WHERE post_id='$id'");
     $one_post->execute();
     $post = $one_post->fetch(PDO::FETCH_OBJ);
@@ -14,7 +15,7 @@ $comments = $conn->query("SELECT * FROM comments WHERE post_id='$id'");
 $comments->execute();
 $comment = $comments->fetchAll(PDO::FETCH_OBJ);
 
-$rating = $conn->query("SELECT * FROM rates WHERE post_id='$id'");
+$rating = $conn->query("SELECT * FROM rates WHERE post_id='$id' AND user_id='$user_id'");
 $rating->execute();
 $rate = $rating->fetch(PDO::FETCH_OBJ);
 
