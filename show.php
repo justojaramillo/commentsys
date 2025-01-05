@@ -21,6 +21,7 @@ $rate = $rating->fetch(PDO::FETCH_OBJ);
 
 ?>
 <main class="form-signin w-90 m-auto mt-5">
+    
     <div class="row">
         <div class="card mt-5">
             <div class="card-body">
@@ -31,6 +32,7 @@ $rate = $rating->fetch(PDO::FETCH_OBJ);
                     <div class="my-rating"></div>
                     <input type="hidden" id="rating" name="rating" value="">
                     <input type="hidden" id="post_id" name="post_id" value="<?= $post->post_id ?>">
+                    <input type="hidden" id="user_id" name="user_id" value="<?= $_SESSION["user_id"]??'guest' ?>">
                 </form>
             </div>
         </div>
@@ -126,7 +128,7 @@ $rate = $rating->fetch(PDO::FETCH_OBJ);
         }
 
         $(".my-rating").starRating({
-            initialRating: "<?= $rate->ratings??0 ?>",
+            initialRating: "<?php if (isset($rate->ratings) && isset($rate->user_id) && $rate->user_id == $_SESSION["user_id"]) { echo $rate->ratings;} else {echo "0";}?>",
             strokeColor: '#894A00',
             strokeWidth: 10,
             starSize: 25,
@@ -135,10 +137,11 @@ $rate = $rating->fetch(PDO::FETCH_OBJ);
                 $(".my-rating").click((e)=>{
                     e.preventDefault();
                     form_rating = $("#form-rating").serialize()+'&insert=insert';
+                    alert(form_rating);
                     $.ajax({
                         type: "POST",
                         url: 'insert_rating.php',
-                        data: form_rating,
+                        data: form_rating
                     });
                 });
             }

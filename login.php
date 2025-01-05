@@ -20,6 +20,7 @@ if (isset($_POST["submit"])) {
 
     if ($login->rowCount()>0) {
       if (password_verify($passwd,$data["passwd"])) {
+        $_SESSION["user_id"] = $data["users_id"];
         $_SESSION["username"] = $data["username"];
         $_SESSION["email"] = $data["email"];
         header("location: index.php");
