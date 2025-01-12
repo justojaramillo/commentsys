@@ -9,9 +9,9 @@ $rows = $select->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <main class="form-signin w-50 m-auto mt-5">
+    <div id="search_data"></div>
     <?php foreach($rows as $row): ?>
     <div class="card mt-3">
-
         <div class="card-body">
             <h5 class="card-title"><?= $row->title ?> </h5>
             <p class="card-text"><?= substr($row->body,0,100).'...' ?></p>

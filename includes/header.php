@@ -28,12 +28,17 @@ session_start();
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container">
-    <a class="navbar-brand" href="index.php">CommentSys</a>
+    <a class="navbar-brand" href="http://commentsys.test">CommentSys</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-     
+      <!--search -->
+      <form class="form-inline my-2 my-lg-0" style="margin-left: 550px" id="search-data">
+        <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <!--search -->
    
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
@@ -66,3 +71,5 @@ session_start();
   </div>
 </nav>
 <div class="container marketing">
+
+
